@@ -1,2 +1,755 @@
 # First-game
 my first game personal 
+#include <iostream>
+using namespace std;
+#include <cstdlib>
+using std::rand;
+using std::srand;
+using std::exit;
+#include <ctime>
+using std::time;
+#include <iomanip>
+using std::setw;
+
+class Element {
+	public:
+		Element(int j1,int j2) {
+			Element1 = j1;
+			Element2 = j2;
+			DefineM1(j1);
+			DefineM2(j2);
+			DefineNameM1(j1);
+			DefineNameM2(j2);
+		}
+		void DefineNameM1 (int n) {
+			switch (n) {
+				case 1:
+					monster1 = "Killer";
+				break;
+				case 2:
+					monster1 = "Warrior";
+				break;
+				case 3:
+					monster1 = "Magic";
+				break;
+				case 4:
+					monster1 = "Defender";
+				break;
+				case 5:
+					monster1 = "Rogue";
+				break;
+			}
+		}
+		void DefineNameM2 (int n) {
+			switch (n) {
+				case 1:
+					monster2 = "Killer";
+				break;
+				case 2:
+					monster2 = "Warrior";
+				break;
+				case 3:
+					monster2 = "Magic";
+				break;
+				case 4:
+					monster2 = "Defender";
+				break;
+				case 5:
+					monster2 = "Rogue";
+				break;
+			}
+		}
+		void DefineM1(int m) {
+			switch(m) {
+				case 1:
+					vidam1 = 140,danom1 = 15,armaduram1 = 10;
+					hab1m1 = 25,hab2m1 = 20,ultm1 = 45;
+					break;
+				case 2:
+					vidam1 = 165,danom1 = 12,armaduram1 = 15;
+					hab1m1 = 18,hab2m1 = 6,ultm1 = 36;
+					break;
+				case 3:
+					vidam1 = 150,danom1 = 11,armaduram1 = 11;
+					hab1m1 = 20,hab2m1 = 30,ultm1 = 40;
+					break;
+				case 4:
+					vidam1 = 180,danom1 = 8,armaduram1 = 18;
+					hab1m1 = 15,hab2m1 = 8,ultm1 = 35;
+					break;
+				case 5:
+					vidam1 = 130,danom1 = 17,armaduram1 = 12;
+					hab1m1 = 25,hab2m1 = 15,ultm1 = 40;
+					break;
+			}
+		}
+		void DefineM2 (int m) {
+			switch(m) {
+				case 1:
+					vidam2 = 140,danom2 = 15,armaduram2 = 10;
+					hab1m2 = 25,hab2m2 = 20,ultm2 = 45;
+					break;
+				case 2:
+					vidam2 = 175,danom2 = 12,armaduram2 = 15;
+					hab1m2 = 18,hab2m2 = 6,ultm2 = 36;
+					break;
+				case 3:
+					vidam2 = 150,danom2 = 13,armaduram2 = 11;
+					hab1m2 = 20,hab2m2 = 30,ultm2 = 40;
+					break;
+				case 4:
+					vidam2 = 190,danom2 = 8,armaduram2 = 18;
+					hab1m2 = 15,hab2m2 = 8,ultm2 = 35;
+					break;
+				case 5:
+					vidam2 = 130,danom2 = 17,armaduram2 = 12;
+					hab1m2 = 25,hab2m2 = 25,ultm2 = 40;
+					break;
+			}
+		}
+		void Battle() {
+			srand(time(0));
+			playA = 1 + rand()% 2;
+			while (vidam1 > 0 || vidam2 > 0) {
+				if (playA == 1) {
+					printSkill(Element1);
+					cin >> skillj1;
+					while (skillj1 > 3 || skillj1 < 1) {
+						cout << "Skill invalid.Please repeat your choice\n";
+						cin >> skillj1;	
+					}
+					while (skillj1 == 3 && cult1 < 3) {
+						cout << "Ultime will only be released in turn 3,repeat your choice\n";
+						cin >> skillj1;
+					}
+					evasion = 1 + rand() % 100;
+					if (cult1 == 3) {
+						cult1 = 1;
+					}
+					if (Element2 == 5) {
+						evasion += evasionR2;
+						if (evasion > 35) {
+							Choice(skillj1);
+							playA = 2;
+							cult1++;
+						} else {
+						cout << "you missed the attack!\n";
+						playA = 2;
+						cult1++;
+						}
+					}
+					if (Element2 != 5) {
+						if (evasion > 15) {
+							Choice(skillj1);
+							playA = 2;
+							cult1++;
+						} else {
+							cout << "you missed the attack!\n";
+							playA = 2;
+							cult1++;
+						}	
+					}
+					if (vidam2 <= 0) {
+						cout << " Congratulations " << monster1 << " you eliminated the " << monster2;  
+						exit(1);
+					}
+				}
+				if (playA == 2) {
+					printSkill(Element2);
+					cin >> skillj2;
+					if (skillj2 > 3 || skillj2 < 1) {
+						cout << "Skill invalid.Please repeat your choice\n";
+						cin >> skillj1;
+					}
+					while (skillj2 == 3 && cult2 < 3) {
+						cout << "Ultime will only be released in turn 3,repeat your choice\n";
+						cin >> skillj2;
+					}
+					evasion = 1 + rand() % 100;
+					if (cult2 == 3) {
+						cult2 = 1;
+					}
+					if (Element1 == 5) {
+						evasion += evasionR2;
+						if (evasion > 35) {
+							Choice(skillj1);
+							playA = 1;
+							cult2++;
+						} else {
+						cout << "you missed the attack!\n";
+						playA = 1;
+						cult2++;
+						}
+					}
+					if (Element1 != 5) {
+						if (evasion > 15) {
+							Choice(skillj1);
+							playA = 1;
+							cult1++;
+						} else {
+							cout << "you missed the attack!\n";
+							playA = 1;
+							cult1++;
+						}	
+					}
+					if (vidam1 <= 0) {
+						cout << cout << "Congratulations " << monster2 << " you eliminated the " << monster1; 
+						exit(1);
+					}
+				}
+			}
+		}
+		void messagep1 (int skill,int point) {
+			switch (Element1) {
+				case 1:
+					switch (skill) {
+						case 1:
+							cout << monster1 << " inflicted " << point << " damage to the " << monster2;
+							cout << "\n\t"<< monster2 << "'s amount of life: " << vidam2 << '\n';
+						break;
+						case 2:
+							cout << monster1 << " increases " << hab2m1 << " critical\n";
+						break;
+						case 3:
+							cout << monster1 << " inflicted " << point << " damage to the " << monster2;
+							cout << "\n\t"<< monster2 << "'s amount of life: " << vidam2 << '\n';
+						break;							
+					}
+				break;
+				case 2:
+					switch (skill) {
+						case 1:
+							cout << monster1 << " inflicted " << point << " damage to the " << monster2;
+							cout << "\n\t"<< monster2 << "'s amount of life: " << vidam2 << '\n';
+						break;
+						case 2:
+							cout << monster1 << " increases " << hab2m1 << "damage\n\n";
+						break;
+						case 3:
+							cout << monster1 << " inflicted " << point << " damage to the " << monster2;
+							cout << "\n\t"<< monster2 << "'s amount of life: " << vidam2 << '\n';
+						break;							
+					}
+				break;
+				case 3:
+					switch (skill) {
+						case 1:
+							cout << monster1 << " inflicted " << point << " damage to the " << monster2;
+							cout << "\n\t"<< monster2 << "'s amount of life: " << vidam2 << '\n';
+						break;
+						case 2:
+							cout << monster1 << " recovered " << hab2m1 << " life";
+							cout << "\n\t"<< monster1 << "'s amount of life: " << vidam1 << '\n';
+						break;
+						case 3:
+							cout << monster1 << " inflicted " << point << " damage to the " << monster2;
+							cout << "\n\t"<< monster2 << "'s amount of life: " << vidam2 << '\n';
+						break;							
+					}
+				break;
+				case 4:
+					switch (skill) {
+						case 1:
+							cout << monster1 << " inflicted " << point << " damage to the " << monster2;
+							cout << "\n\t"<< monster2 << "'s amount of life: " << vidam2 << '\n';
+						break;
+						case 2:
+							cout << monster1 << " increases  " << hab2m1 << "armor\n";
+						break;
+						case 3:
+							cout << monster1 << " inflicted " << point << " damage to the " << monster2;
+							cout << "\n\t"<< monster2 << "'s amount of life: " << vidam2 << '\n';
+						break;							
+					}
+				break;
+				case 5:
+					switch (skill) {
+						case 1:
+							cout << monster1 << " inflicted " << point << " damage to the " << monster2;
+							cout << "\n\t"<< monster2 << "'s amount of life: " << vidam2 << '\n';
+						break;
+						case 2:
+							cout << monster1 << " increases " << hab2m1 << "evasion\n";
+						break;
+						case 3:
+							cout << monster1 << " inflicted " << point << " damage to the " << monster2;
+							cout << "\n\t"<< monster2 << "'s amount of life: " << vidam2 << '\n';
+						break;							
+					}
+				break;
+			}
+		}
+		void messagep2 (int skill,int point) {
+			switch (Element2) {
+				case 1:
+					switch (skill) {
+						case 1:
+							cout << monster2 << " inflicted " << point << " damage to the " << monster1;
+							cout << "\n\t"<< monster1 << "'s amount of life: " << vidam1 << '\n';
+						break;
+						case 2:
+							cout << monster2 << " increases " << hab2m2 << " critical\n\n";
+						break;
+						case 3:
+							cout << monster2 << " inflicted " << point << " damage to the " << monster1;
+							cout << "\n\t"<< monster1 << "'s amount of life: " << vidam1 << '\n';
+						break;							
+					}
+				break;
+				case 2:
+					switch (skill) {
+						case 1:
+							cout << monster2 << " inflicted " << point << " damage to the " << monster1;
+							cout << "\n\t"<< monster1 << "'s amount of life: " << vidam1 << '\n';
+						break;
+						case 2:
+							cout << monster2 << " increases " << hab2m2 <<"damage\n";
+						break;
+						case 3:
+							cout << monster2 << " inflicted " << point << " damage to the " << monster1;
+							cout << "\n\t"<< monster2 << "'s amount of life: " << vidam2 << '\n';
+						break;							
+					}
+				break;
+				case 3:
+					switch (skill) {
+						case 1:
+							cout << monster2 << " inflicted " << point << " damage to the " << monster1;
+							cout << "\n\t"<< monster1 << "'s amount of life: " << vidam1 << '\n';
+						break;
+						case 2:
+							cout << monster1 << " recovered " << hab2m1 << " life";
+							cout << "\n\t"<< monster2 << "'s amount of life: " << vidam2 << '\n';
+						break;
+						case 3:
+							cout << monster2 << " inflicted " << point << " damage to the " << monster1;
+							cout << "\n\t"<< monster1 << "'s amount of life: " << vidam1 << '\n';
+						break;							
+					}
+				break;
+				case 4:
+					switch (skill) {
+						case 1:
+							cout << monster2 << " inflicted " << point << " damage to the " << monster1;
+							cout << "\n\t"<< monster1 << "'s amount of life: " << vidam1 << '\n';
+						break;
+						case 2:
+							cout << monster2 << " increases  " << hab2m2 << "armor\n";
+						break;
+						case 3:
+							cout << monster2 << " inflicted " << point << " damage to the " << monster1;
+							cout << "\n\t"<< monster1 << "'s amount of life: " << vidam1 << '\n';
+						break;							
+					}
+				break;
+				case 5:
+					switch (skill) {
+						case 1:
+							cout << monster2 << " inflicted " << point << " damage to the " << monster1;
+							cout << "\n\t"<< monster1 << "'s amount of life: " << vidam1 << '\n';
+						break;
+						case 2:
+							cout << monster2 << " increases " << hab2m2 << "evasion\n";
+						break;
+						case 3:
+							cout << monster2 << " inflicted " << point << " damage to the " << monster1;
+							cout << "\n\t"<< monster1 << "'s amount of life: " << vidam2 << '\n';
+						break;							
+					}
+				break;
+			}
+		}
+		void Choice(int s) {
+			if (playA == 1) {
+				switch (Element1) {
+					case 1:
+						switch (s) {
+							case 1:
+								crit = 1 + rand()% 100;
+								if (critK > 0) {
+									critK = crit + hab2m1;
+									if (critK <= 35) {	
+										vidam2 -= (hab1m1 + danom1 + 30) - armaduram2;
+										messagep1(s,(hab1m1 + danom1 + 30) - armaduram2);
+									} else {
+										vidam2 -= (hab1m1 + danom1) - armaduram2;
+										messagep1(s,(hab1m1 + danom1) - armaduram2);
+									}
+								} else {
+									if (crit <= 15) {
+										vidam2 -= (hab1m1 + danom1 + 30) - armaduram2;
+										messagep1(s,(hab1m1 + danom1 + 30) - armaduram2);
+									} else {
+										vidam2 -= (hab1m1 + danom1) - armaduram2;
+										messagep1(s,(hab1m1 + danom1) - armaduram2);	
+									}
+								}
+							break;
+							case 2:
+								critK = hab2m1;
+								messagep1(s,(hab1m1 + danom1 + 20) - armaduram2);
+							break;
+							case 3:
+								crit = 1 + rand()% 100;
+								if (critK > 0) {
+									critK += crit;
+									if (critK <= 35) {	
+										vidam2 -= (ultm1 + danom1 + 30) - armaduram2;
+										messagep1(s,(ultm1 + danom1 + 30) - armaduram2);
+									} else {
+										vidam2 -= (ultm1 + danom1) - armaduram2;
+										messagep1(s,(ultm1 + danom1) - armaduram2);
+									}
+								} else {
+									if (crit < 15) {
+										vidam2 -= (ultm1 + danom1 + 30) - armaduram2;
+										messagep1(s,(ultm1 + danom1 + 30) - armaduram2);
+									} else {
+										vidam2 -= (ultm1 + danom1) - armaduram2;
+										messagep1(s,(ultm1 + danom1) - armaduram2);
+									}
+								}
+							break;				
+						}
+					break;
+					case 2:
+						switch (s) {
+							case 1:
+								crit = 1 + rand()% 100;
+								if (crit <= 15) {
+									vidam2 -= (hab1m1 + danom1 + 24) - armaduram2;
+									messagep1(s,(ultm1+ danom1 + 24) - armaduram2);
+								} else {
+									vidam2 -= (hab1m1 + danom1) - armaduram2;
+									messagep1(s,(ultm1 + danom1) - armaduram2);
+								}
+							break;
+							case 2:
+								danom1 += hab2m1;
+								messagep1(s,(ultm1 + danom1 + 20) - armaduram2);	
+							break;
+							case 3:
+								crit = 1 + rand()% 100;
+								if (crit <= 15) {
+									vidam2 -= (ultm1 + danom1 + 24) - armaduram2;
+									messagep1(s,(ultm1 + danom1 + 24) - armaduram2);
+								} else {
+									vidam2 -= (ultm1 + danom1) - armaduram2;
+									messagep1(s,(ultm1 + danom1) - armaduram2);
+								}
+							break;
+						}
+					break;
+					case 3:
+						switch (s) {
+							case 1:
+								crit = 1 + rand()% 100;
+								if ( crit <= 15) {
+									vidam2 -= (hab1m1 + danom1 + 22) - armaduram2;
+									messagep1(s,(hab1m1 + danom1 + 22) - armaduram2);
+								} else {
+									vidam2 -= (hab1m1 + danom1) - armaduram2;
+									messagep1(s,(hab1m1 + danom1) - armaduram2);
+								}
+							break;
+							case 2:
+								vidam1 += hab2m1;
+								messagep1(s,(hab1m1 + danom1 + 20) - armaduram2);
+							break;
+							case 3:
+								crit = 1 + rand()% 100;
+								if (crit <= 15) {
+									vidam2 -= (ultm1 + danom1 + 22) - armaduram2;
+									messagep1(s,(ultm1 + danom1 + 22) - armaduram2);
+								} else {
+									vidam2 -= (ultm1 + danom1) - armaduram2;
+									messagep1(s,(ultm1 + danom1) - armaduram2);
+								}
+							break;
+						}
+					break;
+					case 4:
+						switch (s) {
+							case 1:
+								crit = 1 + rand()% 100;
+								if (crit < 15) {
+									vidam2 -= (hab1m1 + danom1 + 14) - armaduram2;
+									messagep1(s,(hab1m1 + danom1 + 14) - armaduram2);
+								} else {
+									vidam2 -= (hab1m1 + danom1) - armaduram2;
+									messagep1(s,(hab1m1 + danom1) - armaduram2);
+								}
+							break;
+							case 2:
+								armaduram1 += hab2m1;
+								messagep1(s,(hab1m1 + danom1 + 20) - armaduram2);
+							break;
+							case 3:
+								crit = 1 + rand()% 100;
+								if (crit < 15) {
+									vidam2 -= (ultm1 + danom1 + 14) - armaduram2;
+									messagep1(s,(ultm1 + danom1 + 14) - armaduram2);
+								} else {
+									vidam2 -= (ultm1 + danom1) - armaduram2;
+									messagep1(s,(ultm1 + danom1) - armaduram2);
+								}
+							break;
+						}
+					break;
+					case 5:
+						switch (s) {
+							case 1:
+								crit = 1 + rand()% 100;
+								if (crit <= 15) {
+									vidam2 -= (hab1m1 + danom1 + 34) - armaduram2;
+									messagep1(s,(hab1m1 + danom1 + 34) - armaduram2);
+								} else {
+									vidam2 -= (hab1m1 + danom1) - armaduram2;
+									messagep1(s,(hab1m1 + danom1) - armaduram2);
+								}
+							break;
+							case 2:
+								evasionR = hab2m1;
+								messagep1(s,(hab1m1 + danom1 + 20) - armaduram2);
+							break;
+							case 3:
+								crit = 1 + rand()% 100;
+								if (crit <= 15) {
+									vidam2 -= (ultm1 + danom1 + 34) - armaduram2;
+									messagep1(s,(ultm1 + danom1 + 34) - armaduram2);
+								} else {
+									vidam2 -= (ultm1 + danom1) - armaduram2;
+									messagep1(s,(ultm1 + danom1) - armaduram2);
+								}
+							break;
+						}
+					break;
+				}
+			}
+			if (playA == 2) {
+				switch (Element2) {
+					case 1:
+						switch (s) {
+							case 1:
+								crit = 1 + rand()% 100;
+								if (critK2 > 0) {
+									critK2 = crit + hab2m2;
+									if (critK2 <= 35) {	
+										vidam1 -= (hab1m2 + danom2 + 30) - armaduram1;
+										messagep2(s,(hab1m2 + danom2 + 30) - armaduram1); 
+									} else {
+										vidam1 -= (hab1m2 + danom2) - armaduram1;
+										messagep2(s,(hab1m2 + danom2) - armaduram1); 
+									}
+								} else {
+									if (crit <= 15) {
+										vidam1 -= (hab1m2 + danom2 + 30) - armaduram1;
+										messagep2(s,(hab1m2 + danom2 + 30) - armaduram1);  
+									} else {
+										vidam1 -= (hab1m2 + danom2) - armaduram1;
+										messagep2(s,(hab1m2 + danom2) - armaduram1); 
+									}
+								}
+							break;
+							case 2:
+								critK2 = hab2m2;
+								messagep2(s,(hab1m2 + danom2 + 20) - armaduram1); 
+							break;
+							case 3:
+								crit = 1 + rand()% 100;
+								if (critK2 > 0) {
+									critK += crit;
+									if (critK <= 35) {	
+										vidam1 -= (ultm2 + danom2 + 30) - armaduram1;
+										messagep2(s,(ultm2 + danom2 + 30) - armaduram1); 
+									} else {
+										vidam1 -= (ultm2 + danom2) - armaduram1;
+										messagep2(s,(ultm2 + danom2) - armaduram1); 
+									}
+								} else {
+									if (crit < 15) {
+										vidam1 -= (ultm2 + danom2 + 30) - armaduram1;
+										messagep2(s,(ultm2 + danom2 + 30) - armaduram1); 
+									} else {
+										vidam1 -= (ultm2 + danom2) - armaduram1;
+										messagep2(s,(ultm2 + danom2) - armaduram1); 
+									}
+								}
+							break;				
+						}
+					break;
+					case 2:
+						switch (s) {
+							case 1:
+								crit = 1 + rand()% 100;
+								if (crit <= 15) {
+									vidam1 -= (hab1m2 + danom2 + 24) - armaduram1;
+									messagep2(s,(hab1m2 + danom2 + 24) - armaduram1);
+								} else {
+									vidam1 -= (hab1m2 + danom2) - armaduram1;
+									messagep2(s,(hab1m2 + danom2) - armaduram1);
+								}
+							break;
+							case 2:
+								vidam2 += hab2m2;
+								messagep2(s,(hab1m2 + danom1 + 20) - armaduram1);	
+							break;
+							case 3:
+								crit = 1 + rand()% 100;
+								if (crit <= 15) {
+									vidam1 -= (ultm2 + danom2 + 24) - armaduram1;
+									messagep2(s,(ultm2 + danom2 + 24) - armaduram1); 
+								} else {
+									vidam1 -= (ultm2 + danom2) - armaduram1;
+									messagep2(s,(ultm2 + danom2) - armaduram1); 
+								}
+							break;
+						}
+					break;
+					case 3:
+						switch (s) {
+							case 1:
+								crit = 1 + rand()% 100;
+								if ( crit <= 15) {
+									vidam1 -= (hab1m2 + danom2 + 26) - armaduram1;
+									messagep2(s,(hab1m2 + danom2 + 26) - armaduram1);
+								} else {
+									vidam1 -= (hab1m2 + danom2) - armaduram1;
+									messagep2(s,(hab1m2 + danom2) - armaduram1);
+								}
+							break;
+							case 2:
+								danom2 += hab2m2;
+								messagep2(s,(hab1m2 + danom2 + 20) - armaduram1);
+							break;
+							case 3:
+								crit = 1 + rand()% 100;
+								if (crit <= 15) {
+									vidam1 -= (ultm2 + danom2 + 26) - armaduram1;
+									messagep2(s,(ultm2 + danom2 + 26) - armaduram1); 
+								} else {
+									vidam1 -= (ultm2 + danom2) - armaduram1;
+									messagep2(s,(ultm2 + danom2) - armaduram1); 
+								}
+							break;
+						}
+					break;
+					case 4:
+						switch (s) {
+							case 1:
+								crit = 1 + rand()% 100;
+								if (crit < 15) {
+									vidam1 -= (hab1m2 + danom2 + 14) - armaduram1;
+									messagep2(s,(hab1m2 + danom2 + 14) - armaduram1);
+								} else {
+									vidam1 -= (hab1m2 + danom2) - armaduram1;
+									messagep2(s,(hab1m2 + danom2) - armaduram1);	
+								}
+							break;
+							case 2:
+								armaduram2 += hab2m2;
+								messagep2(s,(hab1m2 + danom2 + 20) - armaduram1);	
+							break;
+							case 3:
+								crit = 1 + rand()% 100;
+								if (crit < 15) {
+									vidam1 -= (ultm2 + danom2 + 14) - armaduram1;
+									messagep2(s,(ultm2 + danom2 + 14) - armaduram1); 
+								} else {
+									vidam1 -= (ultm2 + danom2) - armaduram1;
+									messagep2(s,(ultm2 + danom2) - armaduram1); 
+								}
+							break;
+						}
+					break;
+					case 5:
+						switch (s) {
+							case 1:
+								crit = 1 + rand()% 100;
+								if (crit <= 15) {
+									vidam1 -= (hab1m2 + danom2 + 34) - armaduram1;
+									messagep2(s,(hab1m2 + danom2 + 34) - armaduram1);
+								} else {
+									vidam1 -= (hab1m2 + danom2) - armaduram1;
+									messagep2(s,(hab1m2 + danom2) - armaduram1);
+								}
+							break;
+							case 2:
+								evasionR2 = hab2m2;
+								messagep2(s,(hab1m2 + danom2 + 34) - armaduram1);
+							break;
+							case 3:
+								crit = 1 + rand()% 100;
+								if (crit <= 15) {
+									vidam1 -= (ultm2 + danom2 + 34) - armaduram1;
+									messagep2(s,(ultm2 + danom2 + 34) - armaduram1); 	
+								} else {
+									vidam1 -= (ultm2 + danom2) - armaduram1;
+									messagep2(s,(ultm2 + danom2) - armaduram1); 
+								}
+							break;
+						}
+					break;
+				}
+			}
+		}
+		void printSkill(int n) {
+			switch (n) {
+				case 1:
+					cout << "\nEscolha uma Skill\n1 - Quick Attack || 2 - Up critical || ";
+					cout << "3 - Cannon\n\n";
+				break;
+				case 2:
+					cout << "\nEscolha uma Skill\n1 - Shoulder || 2 - Up damage || ";
+					cout << "3 - Shield Attack\n\n";
+				break;
+				case 3:
+					cout << "\nEscolha uma Skill\n1 - Magic Wave || 2 - Recover || ";
+					cout << "3 - Magic Shot\n\n";
+				break;
+				case 4:
+					cout << "\nEscolha uma Skill\n1 - Heavy Punch || 2 - Up Armor || ";
+					cout << "3 - Overwhelming Rock\n\n";
+				break;
+				case 5:
+					cout << "\nEscolha uma Skill\n1 - Treacherous attack || 2 - Evasion || ";
+					cout << "3 - SmokeHouse\n\n";
+				break;
+			}
+		}
+	private:
+		int Element1;
+		int Element2;
+		int playA;
+		int vidam1,danom1,armaduram1;
+		int vidam2,danom2,armaduram2;
+		int hab1m1,hab2m1,ultm1;
+		int hab1m2,hab2m2,ultm2;
+		int skillj1,skillj2;
+		int crit,evasion;
+		int critK,critK2,evasionR,evasionR2;
+		int cult1,cult2;
+		string monster1,monster2;
+};
+
+int main () {
+	int p1,p2;
+	cout << setw(15) << "WELCOME TO ELEMENT MASTER FIGHT\n\n";
+	cout << "Player 1,choose your Element Master\n";
+	cout << "1 - Killer || 2 - Warrior || 3 - Magic || 4 - Defender || 5 - Rogue\n\n";
+	cin >> p1;
+	while (p1 > 5 || p1 < 1) {
+		cout << "Error.Invalid Element Master\n";
+		cin >> p1;
+	}
+	cout << "Player 2,choose your Element Master\n";
+	cout << "1 - Killer || 2 - Warrior || 3 - Magic || 4 - Defender || 5 - Rogue\n\n";
+	cin >> p2;
+	while (p2 > 5 || p2 < 1) {
+		cout << "Error.Invalid Element Master\n";
+		cin >> p2;
+	}
+	Element jogo(p1,p2);
+	jogo.Battle();
+	return 0;
+}
