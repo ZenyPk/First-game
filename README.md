@@ -745,11 +745,8 @@ int main () {
 	cout << "Player 2,choose your Element Master\n";
 	cout << "1 - Killer || 2 - Warrior || 3 - Magic || 4 - Defender || 5 - Rogue\n\n";
 	cin >> p2;
-	while (p2 > 5 || p2 < 1) {
-		cout << "Error.Invalid Element Master\n";
-		cin >> p2;
-	}
-	Element jogo(p1,p2);
 	jogo.Battle();
 	return 0;
 }
+
+	while (p2 > 5 || p2 < 1) {
