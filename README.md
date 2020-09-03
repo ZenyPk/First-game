@@ -1,4 +1,3 @@
-
 WHAT IS?
 
   This game is inspired in turn games as such Pokemon,Final Fantasy,etc. 
